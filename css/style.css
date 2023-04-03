@@ -1,0 +1,26 @@
+body{
+    background: rgba(128, 128, 128, 0.233);
+}
+
+h2{
+    text-align: center;
+}
+
+.main-box{
+    border: 1px solid rgba(0, 0, 0, 0.459);
+    width: 80%;
+    margin: auto;
+    border-radius: 3px ;
+
+}
+h3{
+    text-align: center;
+}
+
+.row{
+    display: flex;
+    justify-content: space-around;
+}
+.option{
+    cursor: pointer;
+}
