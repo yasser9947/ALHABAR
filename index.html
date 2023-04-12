@@ -5,34 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
     <h2>name of the ...</h2>
     <h2> some pla pla pal </h2>
     <div class="main-box">
-        <h3 class="question"> the question</h3>
-        <div class="row">
-            <div class="option">
+        <h3 class="question mt-2"> the question</h3>
+        <div class="row m-4">
+            <div class="col-6 option">
                 <h4 id="option-1">option 1 </h4>
             </div>
-            <div class="option">
+            <div class="option col-6 ">
                 <h4 id="option-2">option 2 </h4>
             </div>
         </div>
-        <div class="row">
-            <div class="option">
+        <div class="row m-4">
+            <div class="option col-6">
                 <h4 id="option-3" >option 3 </h4>
             </div>
-            <div class="option">
+            <div class="option col-6">
                 <h4 id="option-4">option 4 </h4>
             </div>
         </div>
     </div>
-    <button id="back">back</button>
-    <button id="next"> next</button>
-   
+    <div class="row mt-1 d-flex justify-content-around ">
+        <button class="btn btn-outline-secondary col-3 align-self-start" id="back">back</button>
+        <button class="btn btn-outline-secondary col-3 align-self-end" id="next"> next</button>
+    </div>
 
-      <script src="js/main.js" type="module"></script>
+    <div class="container mt-5 d-flex justify-content-end flex-wrap " id="players">
+       
+    </div>
+    <script src="js/init.js"  type="module"></script>
+    <script src="js/Question.js" ></script>
+    <script src="js/main.js" type="module"></script>
 </body>
 </html>
