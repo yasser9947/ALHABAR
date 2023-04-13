@@ -35,9 +35,9 @@ const option3 = document.querySelector("#option-3")
 const option4 = document.querySelector("#option-4")
 const userId = auth.currentUser;
 const dbRef = ref(getDatabase());
-let index = 1;
+let index = null;
 let updates = {};
-
+let startGame = undefined;
 
 next.addEventListener("click", () => {
   index++
@@ -70,11 +70,7 @@ back.addEventListener("click", () => {
 onValue(ref(db, 'questions/'), (snapshot) => {
   const username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
   index = snapshot.val()['index']
-  // console.log(snapshot.val());
-  // console.log(snapshot.val()['index']);
-  // console.log( Object.values(snapshot.val())[index]);
-  // console.log( questions.length);
-  // console.log(snapshot.getChildrenCount());
+  startGame =  snapshot.val()['startGame'];
   question.innerHTML = questions[index]['question']
   option1.innerHTML = questions[index]['options'][0]
   option2.innerHTML = questions[index]['options'][1]
@@ -86,6 +82,7 @@ const players = document.querySelector("#players");
 onValue(ref(db, 'users/'), (snapshot) => {
   players.innerHTML ="";
   Object.values(snapshot.val()).filter(user=>user.alive).forEach(user =>{
+    console.log(` <p class="d-inline-block custom-p m-1"> ${user.name}</p>`);
     players.innerHTML +=` <p class="d-inline-block custom-p m-1"> ${user.name}</p>`
   })
 
