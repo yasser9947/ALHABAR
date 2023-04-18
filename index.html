@@ -10,10 +10,14 @@
 
 </head>
 <body>
+    <div class="wait">
+        <h1>انتظار </h1>
+    </div>
+    <div class="content" style="display: none;">
     <h2>name of the ...</h2>
     <h2> some pla pla pal </h2>
     <div class="main-box">
-        <h3 class="question mt-2"> the question</h3>
+        <h3 class="question mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis pariatur reprehenderit repudiandae sit, iusto mollitia tempore fuga suscipit ea modi nam laborum obcaecati rem nemo ratione! Dicta, ut alias. Itaque.</h3>
         <div class="row m-4">
             <div class="col-6 option">
                 <h4 id="option-1">option 1 </h4>
@@ -32,19 +36,21 @@
         </div>
     </div>
     <div class="row mt-1 d-flex justify-content-around ">
-        <button class="btn btn-outline-secondary col-3 align-self-end" id="next"> 
-            start game
+        <button class="btn btn-outline-secondary col-3 align-self-end" id="end-the-game"> 
+            انهاء اللعبة 
         </button>
-        <button class="btn btn-outline-secondary col-3 align-self-start" id="back">back</button>
-        <button class="btn btn-outline-secondary col-3 align-self-end" id="next"> next</button>
-        <button class="btn btn-outline-secondary col-3 align-self-end" id="next"> 
-            end game
+        <button  class="btn btn-outline-secondary col-3 align-self-end" id="start-the-game"> 
+            بدء اللعبة
         </button>
-    </div>
+        <button hidden class="btn btn-outline-secondary col-3 align-self-start" id="back">الرجوع </button>
+        <button class="btn btn-outline-secondary col-3 align-self-end" id="next"> التالي</button>
 
+    </div>
+    <h3> اسماء المشاركين </h3>
     <div class="container mt-5 d-flex justify-content-end flex-wrap " id="players">
        
     </div>
+</div>
     <script src="js/init.js"  type="module"></script>
     <script src="js/Question.js" ></script>
     <script src="js/main.js" type="module"></script>

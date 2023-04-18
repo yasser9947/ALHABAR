@@ -1,3 +1,7 @@
+
+
+
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -27,6 +31,9 @@ let select = document.querySelector("#select");
 let table = document.querySelector("table");
 const back = document.querySelector("#back");
 const next = document.querySelector("#next");
+const startOfTheGame = document.querySelector("#start-the-game");
+const endOfTheGame = document.querySelector("#end-the-game");
+const mainBox = document.querySelector(".main-box");
 // question
 const question = document.querySelector(".question");
 const option1 = document.querySelector("#option-1")
@@ -39,6 +46,7 @@ let index = null;
 let updates = {};
 let startGame = undefined;
 
+
 next.addEventListener("click", () => {
   index++
   updates['questions/' + 'index'] = index;
@@ -48,7 +56,7 @@ next.addEventListener("click", () => {
   } else {
     next.style.display = "inline";
   }
-  back.style.display = "inline";
+  endOfTheGame.style.display = "inline";
   return update(ref(db), updates);
 })
 
@@ -68,9 +76,21 @@ back.addEventListener("click", () => {
 
 
 onValue(ref(db, 'questions/'), (snapshot) => {
+  document.querySelector(".content").style.display = "block"
+  document.querySelector(".wait").style.display = "none"
   const username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
   index = snapshot.val()['index']
   startGame =  snapshot.val()['startGame'];
+  if (!startGame) {
+    startOfTheGame.style.display = "block"
+    mainBox.style.display = "none"
+    endOfTheGame.style.display = "none"
+    back.style.display = "none";
+    next.style.display = "none"
+  }else{
+    mainBox.style.display = "block"
+    startOfTheGame.style.display = "none"
+  }
   question.innerHTML = questions[index]['question']
   option1.innerHTML = questions[index]['options'][0]
   option2.innerHTML = questions[index]['options'][1]
@@ -89,7 +109,13 @@ onValue(ref(db, 'users/'), (snapshot) => {
 })
 
 
-
+startOfTheGame.addEventListener("click", () => {
+  updates['questions/' + 'startGame'] = true;
+  updates['questions/' + 'index'] = 0;
+  return update(ref(db), updates).then(()=>{
+    next.style.display = "block";
+  });
+})
 
 
 
