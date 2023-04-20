@@ -128,9 +128,10 @@ function startGame(db,theName) {
     options.forEach((option, i) => option.addEventListener("click", async () => {
         clickOption = i;
         localStorage.setItem("clickOption" , clickOption);
-        options.forEach(o => {o.style.border = ''; o.style.background = "#fafafa" })
+        options.forEach(o => {o.style.border = ''; o.style.background = "#fafafa";o.style.color = "black" })
         option.style.border = '1px solid'
-        option.style.background= "repeating-linear-gradient(8deg, #ffff0063, transparent 100px)"
+        option.style.background= "#b8874c"
+        option.style.color = "#fff"
     }))
     // end if the game 
 }

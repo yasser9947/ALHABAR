@@ -1,7 +1,7 @@
 *{
     box-sizing: border-box;
 }
-
+/* #ffaa6a   #5e5550  #b8874c*/
 body {
     display: flex;
     align-items: center;
@@ -9,7 +9,7 @@ body {
     min-height: 100vh;
     text-align: center;
     background: rgb(238, 174, 202);
-    background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+    background: radial-gradient(circle, #ffaa6a  0%, #5e5550 100%);
 }
 
 .right{
@@ -23,15 +23,15 @@ body {
 
 .main-box{
     padding: 20px;
-    background: rgb(223 209 230);
+    background: #5e5550;
     color: #fff;
     font-size: 24px;
     border-radius: 10px;
 }
 .question{
     padding: 20px;
-    background: #4c93ba;
-    color: #fff;
+    background: #ffaa6a;
+    color: #5e5550;
     font-size: 16px;
     border-radius: 10px;
 }
