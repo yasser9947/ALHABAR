@@ -22,13 +22,14 @@ const beforeStartTheGame = document.querySelector("#before-start-the-game");
 
 const btn = document.querySelector("#continue");
 const getname = document.querySelector("#name");
-let clickOption = null;
+let clickOption = localStorage.getItem("clickOption");
 
 !localStorage.getItem("user") ? localStorage.setItem("user", uuid.v4()) : null;
 
 const idOfUser = localStorage.getItem("user");
 let alive = localStorage.getItem("alive");
 let name = localStorage.getItem("name");
+let position = localStorage.getItem("position");
 
 
 console.log(uuid.v4());
@@ -46,8 +47,15 @@ if (alive == "false") {
     const app = initializeApp(firebaseConfig);
     const db = getDatabase();
     const auth = getAuth();
+
+    if(position==1){
+        startGame(db,name)
+        form.style.display = "none";
+        beforeStartTheGame.style.display = "block";
+    }
     btn.addEventListener("click", async () => {
         let value = getname.value;
+        !localStorage.getItem("name") ? localStorage.setItem("name", getname.value) : null;
         if (value.length > 3) {
             set(ref(db, 'users/' + idOfUser), {
                 name: getname.value,
@@ -55,7 +63,9 @@ if (alive == "false") {
             }).then(() => {
                 !localStorage.getItem("name") ? localStorage.setItem("name", getname.value) : null;
                 !localStorage.getItem("alive") ? localStorage.setItem("alive", true) : null;
-                startGame(db);
+                 localStorage.setItem("position", 1) 
+                 position = 1;
+                startGame(db,getname.value);
             }).catch((error) => {
                 console.log(error);
             })
@@ -65,7 +75,7 @@ if (alive == "false") {
     })
     // start of the game
 }
-function startGame(db) {
+function startGame(db,theName) {
     
     const question = document.querySelector(".question");
     const option1 = document.querySelector("#option-1")
@@ -89,7 +99,16 @@ function startGame(db) {
                 option2.innerHTML = questions[index]['options'][1]
                 option3.innerHTML = questions[index]['options'][2]
                 option4.innerHTML = questions[index]['options'][3]
-                console.log(";lsjdflsjdflk");
+                console.log(theName);
+                set(ref(db, 'users/' + idOfUser), {
+                    index:index,
+                    name: theName,
+                    alive: true
+                }).then(() => {
+
+                }).catch((error) => {
+                    console.log(error);
+                })
             } else {
 
                 startOfTheGame.style.display = "none";
@@ -105,11 +124,13 @@ function startGame(db) {
             }
         }
     });
-    let options = [option1, option2, option3, option4]
+    let options = [option1.parentElement, option2.parentElement, option3.parentElement, option4.parentElement]
     options.forEach((option, i) => option.addEventListener("click", async () => {
         clickOption = i;
-        options.forEach(o => o.style.border = '')
-        option.style.border = '1px solid blue'
+        localStorage.setItem("clickOption" , clickOption);
+        options.forEach(o => {o.style.border = ''; o.style.background = "#fafafa" })
+        option.style.border = '1px solid'
+        option.style.background= "repeating-linear-gradient(8deg, #ffff0063, transparent 100px)"
     }))
     // end if the game 
 }

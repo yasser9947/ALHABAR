@@ -101,7 +101,7 @@ onValue(ref(db, 'questions/'), (snapshot) => {
 const players = document.querySelector("#players");
 onValue(ref(db, 'users/'), (snapshot) => {
   players.innerHTML ="";
-  Object.values(snapshot.val()).filter(user=>user.alive).forEach(user =>{
+  Object.values(snapshot.val()).filter(user=>user.alive&&user.index == index).forEach(user =>{
     console.log(` <p class="d-inline-block custom-p m-1"> ${user.name}</p>`);
     players.innerHTML +=` <p class="d-inline-block custom-p m-1"> ${user.name}</p>`
   })
@@ -119,7 +119,13 @@ startOfTheGame.addEventListener("click", () => {
 
 
 
-
+endOfTheGame.addEventListener("click", () => {
+  updates['questions/' + 'startGame'] = false;
+  updates['questions/' + 'index'] = 0;
+  return update(ref(db), updates).then(()=>{
+    next.style.display = "none";
+  });
+})
 
 
 

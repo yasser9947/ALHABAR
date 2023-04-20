@@ -21,7 +21,7 @@ class Question {
 
 
 const questions = [
-    new Question("what is my name" , ["yasir" , "ali" , "Areen" , "khalid"] , 0),
+    new Question("lorem lorem" , ["yasir" , "ali" , "Areen" , "khalid"] , 0),
     new Question("what is my name2" , ["yasir" , "ali" , "Areen" , "khalid"] , 0),
     new Question("what is my name3" , ["yasir" , "ali" , "Areen" , "khalid"] , 0)
 ]
