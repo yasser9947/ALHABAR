@@ -19,7 +19,7 @@ const form = document.querySelector("#form");
 const startOfTheGame = document.querySelector("#start-the-game");
 const endOfTheGame = document.querySelector("#end-the-game");
 const beforeStartTheGame = document.querySelector("#before-start-the-game");
-
+const winner = document.querySelector("#winner");
 const btn = document.querySelector("#continue");
 const getname = document.querySelector("#name");
 let clickOption = localStorage.getItem("clickOption");
@@ -92,12 +92,14 @@ function startGame(db,theName) {
     const option3 = document.querySelector("#option-3")
     const option4 = document.querySelector("#option-4")
     onValue(ref(db, 'questions/'), (snapshot) => {
+        options.forEach(o => {o.style.border = ''; o.style.background = "#fafafa";o.style.color = "black" })
         const username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
         index = snapshot.val()['index']
         console.log(snapshot.val()['startGame']);
-        if (!snapshot.val()['startGame']) {
+        if (!snapshot.val()['startGame'] && !snapshot.val()['showWinners']) {
             startOfTheGame.style.display = "none";
             beforeStartTheGame.style.display = "block";
+            
         }
         else {
             beforeStartTheGame.style.display = "none";
@@ -118,6 +120,14 @@ function startGame(db,theName) {
                 }).catch((error) => {
                     console.log(error);
                 })
+
+                if(snapshot.val()['showWinners']){
+                    winner.style.display = "block"
+                    startOfTheGame.style.display = "none";
+                  }else{
+                    winner.style.display = "none"
+                    startOfTheGame.style.display = "block";
+                  }
             } else {
 
                 startOfTheGame.style.display = "none";

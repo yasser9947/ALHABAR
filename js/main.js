@@ -34,6 +34,7 @@ const next = document.querySelector("#next");
 const startOfTheGame = document.querySelector("#start-the-game");
 const endOfTheGame = document.querySelector("#end-the-game");
 const mainBox = document.querySelector(".main-box");
+const winners = document.querySelector("#winners")
 // question
 const question = document.querySelector(".question");
 const option1 = document.querySelector("#option-1")
@@ -77,6 +78,7 @@ back.addEventListener("click", () => {
 
 
 onValue(ref(db, 'questions/'), (snapshot) => {
+
   document.querySelector(".content").style.display = "block"
   document.querySelector(".wait").style.display = "none"
   const username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
@@ -88,9 +90,18 @@ onValue(ref(db, 'questions/'), (snapshot) => {
     endOfTheGame.style.display = "none"
     back.style.display = "none";
     next.style.display = "none"
-  }else{
+    if(snapshot.val()['showWinners']){
+      console.log(winners);
+      winners.innerHTML  = "اسماء الفائزين"
+    }
+  }
+  else{
     mainBox.style.display = "block"
     startOfTheGame.style.display = "none"
+    if(snapshot.val()['showWinners']){
+      console.log(winners);
+      winners.innerHTML  = "اسماء الفائزين"
+    }
   }
   console.log(index);
   console.log(questions[index]["currectOption"]);
@@ -125,6 +136,7 @@ onValue(ref(db, 'users/'), (snapshot) => {
 startOfTheGame.addEventListener("click", () => {
   updates['questions/' + 'startGame'] = true;
   updates['questions/' + 'index'] = 0;
+  updates['questions/' + 'showWinners'] = false;
   return update(ref(db), updates).then(()=>{
     next.style.display = "block";
   });
@@ -133,10 +145,13 @@ startOfTheGame.addEventListener("click", () => {
 
 
 endOfTheGame.addEventListener("click", () => {
+  updates['questions/' + 'showWinners'] = true;
   updates['questions/' + 'startGame'] = false;
-  updates['questions/' + 'index'] = 0;
+  // updates['questions/' + 'index'] = 0;
   return update(ref(db), updates).then(()=>{
     next.style.display = "none";
+    mainBox.style.display = "none"
+
   });
 })
 
