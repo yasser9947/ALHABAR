@@ -40,6 +40,7 @@ const option1 = document.querySelector("#option-1")
 const option2 = document.querySelector("#option-2")
 const option3 = document.querySelector("#option-3")
 const option4 = document.querySelector("#option-4")
+const options  = [option1,option2,option3,option4]
 const userId = auth.currentUser;
 const dbRef = ref(getDatabase());
 let index = null;
@@ -91,18 +92,30 @@ onValue(ref(db, 'questions/'), (snapshot) => {
     mainBox.style.display = "block"
     startOfTheGame.style.display = "none"
   }
-  question.innerHTML = questions[index]['question']
-  option1.innerHTML = questions[index]['options'][0]
-  option2.innerHTML = questions[index]['options'][1]
-  option3.innerHTML = questions[index]['options'][2]
-  option4.innerHTML = questions[index]['options'][3]
+  console.log(index);
+  console.log(questions[index]["currectOption"]);
+  if(Number(index) !=0 ){
+    
+    options[questions[index]["currectOption"]]?.parentElement.classList.add("currect");
+  }
+  setTimeout(() => {
+    options[questions[index]["currectOption"]]?.parentElement.classList.remove("currect")
+    question.innerHTML = questions[index]['question']
+    option1.innerHTML = questions[index]['options'][0]
+    option2.innerHTML = questions[index]['options'][1]
+    option3.innerHTML = questions[index]['options'][2]
+    option4.innerHTML = questions[index]['options'][3]
+  }, 3000);
+
 });
 
 const players = document.querySelector("#players");
 onValue(ref(db, 'users/'), (snapshot) => {
   players.innerHTML ="";
-  Object.values(snapshot.val()).filter(user=>user.alive&&user.index == index).forEach(user =>{
-    console.log(` <p class="d-inline-block custom-p m-1"> ${user.name}</p>`);
+  Object.values(snapshot.val())
+  .filter(user=>user.alive&& Number(user.index) === Number(index))
+  .forEach(user =>{
+    
     players.innerHTML +=` <p class="d-inline-block custom-p m-1"> ${user.name}</p>`
   })
 

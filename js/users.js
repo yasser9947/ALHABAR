@@ -31,7 +31,15 @@ let alive = localStorage.getItem("alive");
 let name = localStorage.getItem("name");
 let position = localStorage.getItem("position");
 
+// 
+let funGIF = [`<div style="padding-top:93.902%;position:relative;"><iframe src="https://gifer.com/embed/Uc9q" width="100%" height="100%" style='position:absolute;top:0;left:0;' frameBorder="0" allowFullScreen></iframe></div><p></p>` , 
+`<img width="100%" src="https://media.tenor.com/9VDARwraHggAAAAd/game-over-done.gif" alt="" srcset="">`,
+`<img width="100%" src="https://i.makeagif.com/media/10-30-2014/MCTo9i.gif" alt="" srcset="">`,
+`<div style="padding-top:56.250%;position:relative;"><iframe src="https://gifer.com/embed/7omu" width="100%" height="100%" style='position:absolute;top:0;left:0;' frameBorder="0" allowFullScreen></iframe></div><p></p>`,
+`<div style="padding-top:84.236%;position:relative;"><iframe src="https://gifer.com/embed/7Uet" width="100%" height="100%" style='position:absolute;top:0;left:0;' frameBorder="0" allowFullScreen></iframe></div><p></p>`
+] 
 
+endOfTheGame.innerHTML += funGIF[Math.floor(Math.random() * (funGIF.length - 1 ))]
 console.log(uuid.v4());
 startOfTheGame.style.display = "none";
 endOfTheGame.style.display = "none";
@@ -59,7 +67,8 @@ if (alive == "false") {
         if (value.length > 3) {
             set(ref(db, 'users/' + idOfUser), {
                 name: getname.value,
-                alive: true
+                alive: true,
+                index:0
             }).then(() => {
                 !localStorage.getItem("name") ? localStorage.setItem("name", getname.value) : null;
                 !localStorage.getItem("alive") ? localStorage.setItem("alive", true) : null;
@@ -113,6 +122,7 @@ function startGame(db,theName) {
 
                 startOfTheGame.style.display = "none";
                 endOfTheGame.style.display = "block";
+
                 set(ref(db, 'users/' + idOfUser), {
                     name: getname.value,
                     alive: false
