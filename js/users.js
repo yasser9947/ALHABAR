@@ -92,7 +92,7 @@ function startGame(db,theName) {
     const option3 = document.querySelector("#option-3")
     const option4 = document.querySelector("#option-4")
     onValue(ref(db, 'questions/'), (snapshot) => {
-        options.forEach(o => {o.style.border = ''; o.style.background = "#fafafa";o.style.color = "black" })
+        options.forEach(o => {o.style.border = ''; o.style.background = "none";o.style.color = "#fff" })
         const username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
         index = snapshot.val()['index']
         console.log(snapshot.val()['startGame']);
@@ -148,9 +148,9 @@ function startGame(db,theName) {
     options.forEach((option, i) => option.addEventListener("click", async () => {
         clickOption = i;
         localStorage.setItem("clickOption" , clickOption);
-        options.forEach(o => {o.style.border = ''; o.style.background = "#fafafa";o.style.color = "black" })
+        options.forEach(o => {o.style.border = ''; o.style.background = "none";o.style.color = "#fff" })
         option.style.border = '1px solid'
-        option.style.background= "#b8874c"
+        option.style.background= "rgb(78 206 245)"
         option.style.color = "#fff"
     }))
     // end if the game 
