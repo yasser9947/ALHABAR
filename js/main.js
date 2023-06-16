@@ -48,6 +48,8 @@ let index = null;
 let updates = {};
 let startGame = undefined;
 
+let selectOption ={};
+
 
 next.addEventListener("click", () => {
   index++
@@ -103,11 +105,20 @@ onValue(ref(db, 'questions/'), (snapshot) => {
       winners.innerHTML  = "اسماء الفائزين"
     }
   }
-  console.log(index);
+  console.log("index" , index);
   console.log(questions[index]["currectOption"]);
+  setTimeout(()=>{
+  get(ref(db, 'select/')).then((selection)=> {
+    selectOption = selection.val()[index]
+    console.log(selection.val(),index);
+    console.log(selectOption);
   if(Number(index) !=0 ){
     
     options[questions[index]["currectOption"]]?.parentElement.classList.add("currect");
+    option1.innerHTML +=` - <span class="span">${selectOption['s-0']?selectOption['s-0']:0}</span>`
+    option2.innerHTML +=` - <span class="span"> ${selectOption['s-1']?selectOption['s-1']:0}</span>`
+    option3.innerHTML +=` - <span class="span"> ${selectOption['s-2']?selectOption['s-2']:0}</span>`
+    option4.innerHTML +=` - <span class="span"> ${selectOption['s-3']?selectOption['s-3']:0}</span>`
   }
   setTimeout(() => {
     options[questions[index]["currectOption"]]?.parentElement.classList.remove("currect")
@@ -116,20 +127,22 @@ onValue(ref(db, 'questions/'), (snapshot) => {
     option2.innerHTML = questions[index]['options'][1]
     option3.innerHTML = questions[index]['options'][2]
     option4.innerHTML = questions[index]['options'][3]
-  }, 3000);
-
+  }, 5000);
+})
+} , 5000)
 });
 
 const players = document.querySelector("#players");
 onValue(ref(db, 'users/'), (snapshot) => {
   players.innerHTML ="";
+  let totalPlayer = 0  
   Object.values(snapshot.val())
   .filter(user=>user.alive&& Number(user.index) === Number(index))
   .forEach(user =>{
-    
+    totalPlayer++
     players.innerHTML +=` <p class="d-inline-block custom-p m-1"> ${user.name}</p>`
   })
-
+  document.querySelector("#total").innerText = totalPlayer;
 })
 
 
@@ -158,7 +171,7 @@ endOfTheGame.addEventListener("click", () => {
 
 
 
-
+// selections 
 
 
 
