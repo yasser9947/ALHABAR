@@ -119,10 +119,12 @@ function startGame(db,theName) {
         else {
             beforeStartTheGame.style.display = "none";
             startOfTheGame.style.display = "block";
-            if (index == 0 || questions[index]['currectOption'] == clickOption) {
+            if( localStorage.getItem("alive") =="true"){
                 update(ref(db, 'select/' + index ), {
                     [`s-${clickOption}`]: increment(1)
                 })
+            }
+            if (index == 0 || questions[index]['currectOption'] == clickOption) {
                 question.innerHTML = questions[index]['question']
                 option1.innerHTML = questions[index]['options'][0]
                 option2.innerHTML = questions[index]['options'][1]

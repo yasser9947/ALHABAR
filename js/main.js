@@ -150,6 +150,7 @@ startOfTheGame.addEventListener("click", () => {
   updates['questions/' + 'startGame'] = true;
   updates['questions/' + 'index'] = 0;
   updates['questions/' + 'showWinners'] = false;
+  set(ref(db, 'select'), {})
   return update(ref(db), updates).then(()=>{
     next.style.display = "block";
   });
