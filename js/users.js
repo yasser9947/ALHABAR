@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getDatabase, ref, get, set, child, update, remove, onValue } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+import { getDatabase, ref, get, set, child, update, remove, onValue ,increment} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+import { getAuth ,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDVfKD7lzrI2FyGjFEn5rtoVBtf1PWEJyk",
@@ -23,6 +23,7 @@ const winner = document.querySelector("#winner");
 const btn = document.querySelector("#continue");
 const getname = document.querySelector("#name");
 let clickOption = localStorage.getItem("clickOption");
+const avatar =  document.querySelector("#avatar")
 
 !localStorage.getItem("user") ? localStorage.setItem("user", uuid.v4()) : null;
 
@@ -31,6 +32,20 @@ let alive = localStorage.getItem("alive");
 let name = localStorage.getItem("name");
 let position = localStorage.getItem("position");
 
+const auth = getAuth();
+console.log(auth);
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log(user);
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/auth.user
+    const uid = user.uid;
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
 // 
 let funGIF = [`<div style="padding-top:93.902%;position:relative;"><iframe src="https://gifer.com/embed/Uc9q" width="100%" height="100%" style='position:absolute;top:0;left:0;' frameBorder="0" allowFullScreen></iframe></div><p></p>` , 
 `<img width="100%" src="https://media.tenor.com/9VDARwraHggAAAAd/game-over-done.gif" alt="" srcset="">`,
@@ -62,19 +77,20 @@ if (alive == "false") {
         beforeStartTheGame.style.display = "block";
     }
     btn.addEventListener("click", async () => {
-        let value = getname.value;
-        !localStorage.getItem("name") ? localStorage.setItem("name", getname.value) : null;
+        console.log(avatar.value);
+        let value = getname.value + avatar.value;
+        !localStorage.getItem("name") ? localStorage.setItem("name", value) : null;
         if (value.length > 3) {
             set(ref(db, 'users/' + idOfUser), {
-                name: getname.value,
+                name:value,
                 alive: true,
                 index:0
             }).then(() => {
-                !localStorage.getItem("name") ? localStorage.setItem("name", getname.value) : null;
+                !localStorage.getItem("name") ? localStorage.setItem("name", value) : null;
                 !localStorage.getItem("alive") ? localStorage.setItem("alive", true) : null;
                  localStorage.setItem("position", 1) 
                  position = 1;
-                startGame(db,getname.value);
+                startGame(db,value);
             }).catch((error) => {
                 console.log(error);
             })
@@ -91,11 +107,10 @@ function startGame(db,theName) {
     const option2 = document.querySelector("#option-2")
     const option3 = document.querySelector("#option-3")
     const option4 = document.querySelector("#option-4")
+   
     onValue(ref(db, 'questions/'), (snapshot) => {
         options.forEach(o => {o.style.border = ''; o.style.background = "none";o.style.color = "#fff" })
-        const username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
         index = snapshot.val()['index']
-        console.log(snapshot.val()['startGame']);
         if (!snapshot.val()['startGame'] && !snapshot.val()['showWinners']) {
             startOfTheGame.style.display = "none";
             beforeStartTheGame.style.display = "block";
@@ -105,6 +120,9 @@ function startGame(db,theName) {
             beforeStartTheGame.style.display = "none";
             startOfTheGame.style.display = "block";
             if (index == 0 || questions[index]['currectOption'] == clickOption) {
+                update(ref(db, 'select/' + index ), {
+                    [`s-${clickOption}`]: increment(1)
+                })
                 question.innerHTML = questions[index]['question']
                 option1.innerHTML = questions[index]['options'][0]
                 option2.innerHTML = questions[index]['options'][1]
@@ -132,7 +150,6 @@ function startGame(db,theName) {
 
                 startOfTheGame.style.display = "none";
                 endOfTheGame.style.display = "block";
-
                 set(ref(db, 'users/' + idOfUser), {
                     name: getname.value,
                     alive: false
@@ -154,4 +171,6 @@ function startGame(db,theName) {
         option.style.color = "#fff"
     }))
     // end if the game 
+
 }
+
