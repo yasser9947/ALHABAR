@@ -109,16 +109,18 @@ onValue(ref(db, 'questions/'), (snapshot) => {
   console.log(questions[index]["currectOption"]);
   setTimeout(()=>{
   get(ref(db, 'select/')).then((selection)=> {
-    selectOption = selection.val()[index]
+    selectOption = selection.val()&& selection.val()[index]
     console.log(selection.val(),index);
     console.log(selectOption);
   if(Number(index) !=0 ){
-    
+
     options[questions[index]["currectOption"]]?.parentElement.classList.add("currect");
-    option1.innerHTML +=` - <span class="span">${selectOption['s-0']?selectOption['s-0']:0}</span>`
-    option2.innerHTML +=` - <span class="span"> ${selectOption['s-1']?selectOption['s-1']:0}</span>`
-    option3.innerHTML +=` - <span class="span"> ${selectOption['s-2']?selectOption['s-2']:0}</span>`
-    option4.innerHTML +=` - <span class="span"> ${selectOption['s-3']?selectOption['s-3']:0}</span>`
+    if(selectOption){
+      option1.innerHTML +=` - <span class="span">${selectOption['s-0']?selectOption['s-0']:0}</span>`
+      option2.innerHTML +=` - <span class="span"> ${selectOption['s-1']?selectOption['s-1']:0}</span>`
+      option3.innerHTML +=` - <span class="span"> ${selectOption['s-2']?selectOption['s-2']:0}</span>`
+      option4.innerHTML +=` - <span class="span"> ${selectOption['s-3']?selectOption['s-3']:0}</span>`
+    }
   }
   setTimeout(() => {
     options[questions[index]["currectOption"]]?.parentElement.classList.remove("currect")

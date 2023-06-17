@@ -119,12 +119,47 @@ function startGame(db,theName) {
         else {
             beforeStartTheGame.style.display = "none";
             startOfTheGame.style.display = "block";
+            document.querySelector("#qq").style.display = "none"
+            document.querySelector("#qw").style.display = "block"
             if( localStorage.getItem("alive") =="true"){
                 update(ref(db, 'select/' + index ), {
                     [`s-${clickOption}`]: increment(1)
                 })
             }
-            if (index == 0 || questions[index]['currectOption'] == clickOption) {
+            setTimeout(() => {
+            document.querySelector("#qq").style.display = "block"
+            document.querySelector("#qw").style.display = "none"
+
+
+            if( questions[index]['sp']){
+                get(ref(db, 'select/')).then((selection)=> {
+                    if(sumMax(selection.val()[index] ,selection.val()[index][`s-${clickOption}`] )){
+                        question.innerHTML = questions[index]['question']
+                        option1.innerHTML = questions[index]['options'][0]
+                        option2.innerHTML = questions[index]['options'][1]
+                        option3.innerHTML = questions[index]['options'][2]
+                        option4.innerHTML = questions[index]['options'][3]
+                        set(ref(db, 'users/' + idOfUser), {
+                            index:index,
+                            name: theName,
+                            alive: true
+                        })
+                    }else{
+                        set(ref(db, 'users/' + idOfUser), {
+                            name: getname.value,
+                            index:-1,
+                            alive: false
+                        }).then(() => {
+                            localStorage.setItem("alive", false);
+                            location.reload();
+                        }).catch((error) => {
+                            console.log(error);
+                        })
+                    }
+
+                })
+            }
+            else if (index == 0 || questions[index]['currectOption'] == clickOption) {
                 question.innerHTML = questions[index]['question']
                 option1.innerHTML = questions[index]['options'][0]
                 option2.innerHTML = questions[index]['options'][1]
@@ -149,18 +184,17 @@ function startGame(db,theName) {
                     startOfTheGame.style.display = "block";
                   }
             } else {
-
-                startOfTheGame.style.display = "none";
-                endOfTheGame.style.display = "block";
                 set(ref(db, 'users/' + idOfUser), {
                     name: getname.value,
                     alive: false
                 }).then(() => {
                     localStorage.setItem("alive", false);
+                    location.reload();
                 }).catch((error) => {
                     console.log(error);
                 })
             }
+        }, 8000);
         }
     });
     let options = [option1.parentElement, option2.parentElement, option3.parentElement, option4.parentElement]
@@ -176,3 +210,10 @@ function startGame(db,theName) {
 
 }
 
+function sumMax(arrayOfObject , number ){
+    let max =   Math.max(... Object.values(arrayOfObject))
+        if(max <= number){
+            return true
+        }
+    return false
+}
