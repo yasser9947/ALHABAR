@@ -293,3 +293,34 @@ body {
       transform: rotateZ(90deg);
     }
   }
+
+  .custem-fixed{
+    position: fixed;
+    bottom: 1px;
+    color: #fff;
+    left: 1px;
+    font-family: cursive;
+  }
+
+  .custem-fixed span{
+    text-shadow: 2px 5px black;
+  }
+  .msg{
+    font-size: 18px;
+    color: gold;
+    text-shadow: 3px 2px 10px #fff;
+    animation: mmssgg 8s    ease-in  ;
+ 
+  }
+  @keyframes mmssgg {
+    0% {
+      opacity: 0;
+    }
+     50%{
+      opacity: 1;
+    }
+     100%{
+      opacity: 0;
+    }
+    
+  }

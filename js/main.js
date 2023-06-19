@@ -107,14 +107,23 @@ onValue(ref(db, 'questions/'), (snapshot) => {
   }
   console.log("index" , index);
   console.log(questions[index]["currectOption"]);
+
+  let max ;
   setTimeout(()=>{
   get(ref(db, 'select/')).then((selection)=> {
     selectOption = selection.val()&& selection.val()[index]
     console.log(selection.val(),index);
     console.log(selectOption);
-  if(Number(index) !=0 ){
+    if(questions[index]['sp']){
+      max = Object.keys(selectOption).find(key => selectOption[key] === Math.max(...Object.values(selectOption)));
+    }
 
-    options[questions[index]["currectOption"]]?.parentElement.classList.add("currect");
+  if(Number(index) !=0 ){
+    if(questions[index]['sp']){
+      options[max.split("-")[1]]?.parentElement.classList.add("currect");
+    }else{
+      options[questions[index]["currectOption"]]?.parentElement.classList.add("currect");
+    }
     if(selectOption){
       option1.innerHTML +=` - <span class="span">${selectOption['s-0']?selectOption['s-0']:0}</span>`
       option2.innerHTML +=` - <span class="span"> ${selectOption['s-1']?selectOption['s-1']:0}</span>`
@@ -123,7 +132,12 @@ onValue(ref(db, 'questions/'), (snapshot) => {
     }
   }
   setTimeout(() => {
-    options[questions[index]["currectOption"]]?.parentElement.classList.remove("currect")
+    if(questions[index]['sp']){
+      options[max.split("-")[1]]?.parentElement.classList.remove("currect");
+    }else{
+      options[questions[index]["currectOption"]]?.parentElement.classList.remove("currect")
+    }
+    
     question.innerHTML = questions[index]['question']
     option1.innerHTML = questions[index]['options'][0]
     option2.innerHTML = questions[index]['options'][1]
