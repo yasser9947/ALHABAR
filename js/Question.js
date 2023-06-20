@@ -56,6 +56,15 @@ const  questions  =  [
   ],
   "currectOption": 2
 },{
+  "question": "+++++++++++++++++",
+  "options":[
+    "Digital Custom Solutions",
+    "Digital Delivery Suite",
+    "Digital Delivery Software",
+    "Digital Delivery System "
+  ],
+  "currectOption": 0
+},{
   "question": "اختر الشكل الذي تعتقد ان الاكثرية سوف يختارونه",
   "options":[
 "◥◤",
@@ -63,7 +72,7 @@ const  questions  =  [
 "ω",
 "っ"
   ], 
-  "currectOption": 0 ,
+  "currectOption": 1 ,
 
 },{
   "question": "هل تريد الاستمرار",
@@ -131,7 +140,7 @@ const  questions  =  [
     "   جميع المقاطع تتعدى ال 100 مليون مشاهده"  ,
      "جميع المقاطع اقل من 100 مليون مشاهده",
      "يوجد مقطع واحد على الاكثر يقل عن 100  مليون مشاهده",
-     "يوجد مقطع واحد على الاقل تقل عن 100 ملبون مشاهده"//this
+     "يوجد مقطع واحد على الاقل تقل عن 100 مليون مشاهده"//this
   ],
   "currectOption": 1
 },{

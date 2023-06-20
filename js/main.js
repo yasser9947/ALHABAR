@@ -94,7 +94,7 @@ onValue(ref(db, 'questions/'), (snapshot) => {
     next.style.display = "none"
     if(snapshot.val()['showWinners']){
       console.log(winners);
-      winners.innerHTML  = "اسماء الفائزين"
+      winners.innerHTML  = "<h1> Winners </h1>"
     }
   }
   else{
@@ -102,7 +102,7 @@ onValue(ref(db, 'questions/'), (snapshot) => {
     startOfTheGame.style.display = "none"
     if(snapshot.val()['showWinners']){
       console.log(winners);
-      winners.innerHTML  = "اسماء الفائزين"
+      winners.innerHTML  = "<h1> Winners </h1>"
     }
   }
   console.log("index" , index);
